@@ -1,12 +1,13 @@
 import express from "express"
 import {registerController, testController, loginController, forgotPasswordController, updateProfileController, getOrdersController, getAllOrdersController, orderStatusController} from '../controllers/authController.js'
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js"
+import formidable from 'express-formidable';
 //router object
 
 const router = express.Router()
  //routing
  //REGISTER  || METHOD POST
- router.post('/register', registerController)
+ router.post('/register',formidable(), registerController )
 
 //LOGIN || POST
 router.post('/login', loginController) 

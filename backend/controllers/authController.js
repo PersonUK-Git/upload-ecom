@@ -2,29 +2,36 @@ import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import JWT from "jsonwebtoken";
-
+import fs from "fs"
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address, answer } = req.body;
+    const { name, email, password, phone, address, answer } = req.fields;
+    const { photo } = req.files;
     //validations
-    if (!name) {
+    switch (true) {
+    case !name :
       return res.send({ message: "Name is Required" });
-    }
-    if (!email) {
+    
+    case !email :
       return res.send({ message: "Email is Required" });
-    }
-    if (!password) {
+    
+    case !password :
       return res.send({ message: "Password is Required" });
-    }
-    if (!phone) {
+    
+    case !phone :
       return res.send({ message: "Phone no is Required" });
-    }
-    if (!address) {
+    
+    case !address :
       return res.send({ message: "Address is Required" });
-    }
-    if (!answer) {
+    
+    case !answer :
         return res.send({ message: "Answer is Required" });
-      }
+      
+    case photo && photo.size > 1000000:
+                return res
+                    .status(500)
+                    .send({ error: "photo is Required and should be less then 1mb" });
+    }
     //check user
     const exisitingUser = await userModel.findOne({ email });
     //exisiting user
@@ -38,19 +45,29 @@ export const registerController = async (req, res) => {
     const hashedPassword = await hashPassword(password);
     //save
     const user = await new userModel({
-      name,
-      email,
-      phone,
-      address,
-      password: hashedPassword,
-      answer,
-    }).save();
-
+     
+        name,
+        email,
+        phone,
+        address,
+        password: hashedPassword,
+        answer,
+        
+      })
+    
+    if (photo) {
+       user.photo.data = fs.readFileSync(photo.path)
+        console.log(user.photo.data);
+        user.photo.contentType = photo.type;
+    }
+    await user.save();
     res.status(201).send({
-      success: true,
-      message: "User Register Successfully",
-      user,
+        success: true,
+        message: "User registered Successfully",
+        user,
     });
+    
+    
   } catch (error) {
     console.log(error);
     res.status(500).send({
