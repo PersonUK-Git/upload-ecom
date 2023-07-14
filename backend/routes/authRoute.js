@@ -1,5 +1,5 @@
 import express from "express"
-import {registerController, testController, loginController, forgotPasswordController, updateProfileController, getOrdersController, getAllOrdersController, orderStatusController} from '../controllers/authController.js'
+import {registerController, testController, loginController, forgotPasswordController, updateProfileController, getOrdersController, getAllOrdersController, orderStatusController, UserPhotoController} from '../controllers/authController.js'
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js"
 import formidable from 'express-formidable';
 //router object
@@ -28,13 +28,15 @@ router.get('/admin-auth', requireSignIn,isAdmin, (req,res) => {
 })
 
 //update profile
-router.put("/profile", requireSignIn, updateProfileController);
+router.put("/profile", requireSignIn,formidable(), updateProfileController);
 
 //orders
 router.get("/orders", requireSignIn, getOrdersController);
 
 //all orders
 router.get("/all-orders", requireSignIn, isAdmin, getAllOrdersController);
+
+router.get('/user-photo/:userId', UserPhotoController)
 
 // order status update
 router.put(

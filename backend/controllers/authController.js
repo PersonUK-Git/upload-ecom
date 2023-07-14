@@ -183,7 +183,8 @@ export const testController = (req, res) => {
 //update prfole
 export const updateProfileController = async (req, res) => {
   try {
-    const { name, email, password, address, phone } = req.body;
+    const { name, email, password, address, phone } = req.fields;
+    const {photo} = req.files;
     const user = await userModel.findById(req.user._id);
     //password
     if (password && password.length < 6) {
@@ -200,6 +201,11 @@ export const updateProfileController = async (req, res) => {
       },
       { new: true }
     );
+    if (photo) {
+      user.photo.data = fs.readFileSync(photo.path);
+      user.photo.contentType = photo.type;
+  }
+  await user.save();
     res.status(200).send({
       success: true,
       message: "Profile Updated SUccessfully",
@@ -272,3 +278,20 @@ export const orderStatusController = async (req, res) => {
     });
   }
 };
+
+export const UserPhotoController = async(req,res) => {
+  try {
+      const users  = await userModel.findById(req.params.userId).select("photo")
+      if(users.photo.data){
+          res.set("Content-type", users.photo.contentType)
+          return res.status(200).send(users.photo.data)
+      }
+  } catch (error) {
+      console.log(`Error in get photo : ${error}`);
+      res.status(500).send({
+          success:false,
+          message:"Error in getting photo",
+          error
+      })
+  }
+}
