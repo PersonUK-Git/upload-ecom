@@ -20,7 +20,7 @@ const Users = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:7000/api/v1/category/create-category",
+        "https://node-server-s44q.onrender.com/api/v1/category/create-category",
         { name }
       );
       if (data?.success) {
@@ -39,7 +39,7 @@ const Users = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:7000/api/v1/category/get-category"
+        "https://node-server-s44q.onrender.com/api/v1/category/get-category"
       );
       if (data?.success) {
         setCategories(data?.category);
@@ -59,7 +59,7 @@ const Users = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:7000/api/v1/category/update-category/${selected._id}`,
+        `https://node-server-s44q.onrender.com/api/v1/category/update-category/${selected._id}`,
         { name: updatedName }
       );
       if (data.success) {
@@ -81,7 +81,7 @@ const Users = () => {
   const handleDelete = async (pId) => {
     try {
       const { data } = await axios.delete(
-        `http://localhost:7000/api/v1/category/delete-category/${pId}`
+        `https://node-server-s44q.onrender.com/api/v1/category/delete-category/${pId}`
       );
       if (data.success) {
         toast.success(`category is deleted`);

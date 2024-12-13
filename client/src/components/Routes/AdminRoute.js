@@ -11,7 +11,7 @@ export default function AdminRoute() {
   useEffect(() => {
     const authCheck = async () => {
       const res = await axios.get(
-        "http://localhost:7000/api/v1/auth/admin-auth"
+        "https://node-server-s44q.onrender.com/api/v1/auth/admin-auth"
       );
 
       if (res.data.ok) {

@@ -28,7 +28,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        "http://localhost:7000/api/v1/auth/profile",
+        "https://node-server-s44q.onrender.com/api/v1/auth/profile",
         {
           name,
           email,

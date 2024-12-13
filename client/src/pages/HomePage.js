@@ -25,7 +25,7 @@ const HomePage = () => {
   const getAllCategory = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:7000/api/v1/category/get-category"
+        "https://node-server-s44q.onrender.com/api/v1/category/get-category"
       );
       if (data?.success) {
         setCategories(data?.category);
@@ -40,7 +40,7 @@ const HomePage = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:7000/api/v1/product/product-list/${page}`
+        `https://node-server-s44q.onrender.com/api/v1/product/product-list/${page}`
       );
       setLoading(false);
       setProducts(data?.products || []);
@@ -73,7 +73,7 @@ const HomePage = () => {
   const filterProduct = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:7000/api/v1/product/product-filters",
+        "https://node-server-s44q.onrender.com/api/v1/product/product-filters",
         {
           checked,
           radio,
@@ -165,7 +165,7 @@ const HomePage = () => {
               {products?.map((p) => (
                 <div className="card m-2" key={p._id || p.slug}>
                   <img
-                    src={`http://localhost:7000/api/v1/product/product-photo/${p._id}`}
+                    src={`https://node-server-s44q.onrender.com/api/v1/product/product-photo/${p._id}`}
                     className="card-img-top"
                     alt={p.name}
                   />

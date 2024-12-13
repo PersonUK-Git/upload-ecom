@@ -47,7 +47,7 @@ const CreateProduct = () => {
       productData.append("photo", photo);
       productData.append("category", category);
       const { data } = axios.post(
-        "http://localhost:7000/api/v1/product/create-product",
+        "https://node-server-s44q.onrender.com/api/v1/product/create-product",
         productData
       );
       if (data?.success) {

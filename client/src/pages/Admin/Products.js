@@ -4,7 +4,7 @@ import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import './style.css'
+import "./style.css";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -35,27 +35,33 @@ const Products = () => {
 
   const handleDrop = (index) => {
     if (draggingIndex === null) return;
-  
+
     const newProducts = [...products];
     const [removed] = newProducts.splice(draggingIndex, 1);
     newProducts.splice(index, 0, removed);
-  
+
     // Update the order field in the products array
     newProducts.forEach((product, i) => {
       product.order = i + 1;
     });
-  
+
     setProducts(newProducts);
     setDraggingIndex(null);
-  
+
     // Make API call to update the product order
-    axios.post('http://localhost:7000/api/v1/product/update-product-order', {
-      products: newProducts
-    }).then((response) => {
-      console.log(response.data);
-    }).catch((error) => {
-      console.log(error);
-    });
+    axios
+      .post(
+        "https://node-server-s44q.onrender.com/api/v1/product/update-product-order",
+        {
+          products: newProducts,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

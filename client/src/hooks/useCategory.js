@@ -8,7 +8,7 @@ export default function useCategory() {
   const getCategories = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:7000/api/v1/category/get-category"
+        "https://node-server-s44q.onrender.com/api/v1/category/get-category"
       );
       setCategories(data?.category);
     } catch (error) {
