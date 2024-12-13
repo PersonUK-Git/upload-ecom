@@ -16,11 +16,14 @@ const ForgotPasssword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://node-server-s44q.onrender.com/api/v1/auth/forgot-password", {
-        email,
-        newPassword,
-        answer,
-      });
+      const res = await axios.post(
+        "http://localhost:7000/api/v1/auth/forgot-password",
+        {
+          email,
+          newPassword,
+          answer,
+        }
+      );
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
 

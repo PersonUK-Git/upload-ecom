@@ -21,7 +21,9 @@ const AdminOrders = () => {
   const [auth, setAuth] = useAuth();
   const getOrders = async () => {
     try {
-      const { data } = await axios.get("https://node-server-s44q.onrender.com/api/v1/auth/all-orders");
+      const { data } = await axios.get(
+        "http://localhost:7000/api/v1/auth/all-orders"
+      );
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -34,9 +36,12 @@ const AdminOrders = () => {
 
   const handleChange = async (orderId, value) => {
     try {
-      const { data } = await axios.put(`https://node-server-s44q.onrender.com/api/v1/auth/order-status/${orderId}`, {
-        status: value,
-      });
+      const { data } = await axios.put(
+        `http://localhost:7000/api/v1/auth/order-status/${orderId}`,
+        {
+          status: value,
+        }
+      );
       getOrders();
     } catch (error) {
       console.log(error);
@@ -116,4 +121,4 @@ const AdminOrders = () => {
   );
 };
 
-export default AdminOrders; 
+export default AdminOrders;

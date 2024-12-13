@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import axios from "axios";
 import { useCart } from "../context/cart";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 
 import "../styles/ProductDetailsStyles.css";
@@ -16,8 +16,6 @@ const ProductDetails = () => {
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
 
- 
-
   //initalp details
   useEffect(() => {
     if (params?.slug) getProduct();
@@ -26,7 +24,7 @@ const ProductDetails = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `https://node-server-s44q.onrender.com/api/v1/product/get-product/${params.slug}`
+        `http://localhost:7000/api/v1/product/get-product/${params.slug}`
       );
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
@@ -38,7 +36,7 @@ const ProductDetails = () => {
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `https://node-server-s44q.onrender.com/api/v1/product/related-product/${pid}/${cid}`
+        `http://localhost:7000/api/v1/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
     } catch (error) {
@@ -50,7 +48,7 @@ const ProductDetails = () => {
       <div className="row container product-details">
         <div className="col-md-6">
           <img
-            src={`https://node-server-s44q.onrender.com/api/v1/product/product-photo/${product._id}`}
+            src={`http://localhost:7000/api/v1/product/product-photo/${product._id}`}
             className="card-img-top"
             alt={product.name}
             height="300"
@@ -70,14 +68,16 @@ const ProductDetails = () => {
             })}
           </h6>
           <h6>Category : {product?.category?.name}</h6>
-          <button class="btn btn-info ms-1"  onClick={() => {
-                      setCart([...cart, product]);
-                      localStorage.setItem(
-                        "cart",
-                        JSON.stringify([...cart, product])
-                      );
-                      toast.success("Item Added to cart");
-                    }}>ADD TO CART</button>
+          <button
+            class="btn btn-info ms-1"
+            onClick={() => {
+              setCart([...cart, product]);
+              localStorage.setItem("cart", JSON.stringify([...cart, product]));
+              toast.success("Item Added to cart");
+            }}
+          >
+            ADD TO CART
+          </button>
         </div>
       </div>
       <hr />
@@ -90,7 +90,7 @@ const ProductDetails = () => {
           {relatedProducts?.map((p) => (
             <div className="card m-2" key={p._id}>
               <img
-                src={`https://node-server-s44q.onrender.com/api/v1/product/product-photo/${p._id}`}
+                src={`http://localhost:7000/api/v1/product/product-photo/${p._id}`}
                 className="card-img-top"
                 alt={p.name}
               />
@@ -114,9 +114,6 @@ const ProductDetails = () => {
                   >
                     More Details
                   </button>
-                 
-
-                  
                 </div>
               </div>
             </div>

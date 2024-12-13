@@ -61,10 +61,21 @@ export const createProductController = async (req, res) => {
 
 
 //get all product
-
+export const updateProductOrderController = async (req, res) => {
+  try {
+    const products = req.body.products;
+    for (let i = 0; i < products.length; i++) {
+      await productModel.findByIdAndUpdate(products[i]._id, { order: products[i].order });
+    }
+    res.json({ message: 'Product order updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating product order' });
+  }
+}
 export const getProductController = async (req, res) => {
     try {
-        const products = await productModel.find({}).populate('category').select("-photo").limit(12).sort({ createdAt: -1 })
+        const products = await productModel.find({}).sort({order: 1}).populate('category').select("-photo").limit(12)
         res.status(200).send({
             success: true,
             message: "allProducts",
@@ -229,27 +240,32 @@ export const productFiltersController = async (req, res) => {
   // product list base on page
   export const productListController = async (req, res) => {
     try {
-      const perPage = 4;
-      const page = req.params.page ? req.params.page : 1;
-      const products = await productModel
-        .find({})
-        .select("-photo")
-        .skip((page - 1) * perPage)
-        .limit(perPage)
-        .sort({ createdAt: -1 });
-      res.status(200).send({
-        success: true,
-        products,
-      });
+        const perPage = 4; // Number of items per page
+        const page = req.params.page ? req.params.page : 1 // Current page
+        const products = await productModel
+            .find({})
+            .select("-photo")
+            .skip((page - 1) * perPage) // Skip items for previous pages
+            .limit(perPage) // Limit the number of items returned
+            .sort({ order: 1});
+        const total = await productModel.countDocuments(); // Total number of products
+
+        res.status(200).send({
+            success: true,
+            products,
+            total,
+            perPage,
+            currentPage: page,
+        });
     } catch (error) {
-      console.log(error);
-      res.status(400).send({
-        success: false,
-        message: "error in per page ctrl",
-        error,
-      });
+        console.log(error);
+        res.status(400).send({
+            success: false,
+            message: "error in per page ctrl",
+            error,
+        });
     }
-  };
+};
 
   
 // search product

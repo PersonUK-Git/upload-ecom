@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../../components/Layout/Layout";
 import AdminMenu from "./../../components/Layout/AdminMenu";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { Select } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ const UpdateProduct = () => {
   const getSingleProduct = async () => {
     try {
       const { data } = await axios.get(
-        `https://node-server-s44q.onrender.com/api/v1/product/get-product/${params.slug}`
+        `http://localhost:7000/api/v1/product/get-product/${params.slug}`
       );
       setName(data.product.name);
       setId(data.product._id);
@@ -45,7 +45,9 @@ const UpdateProduct = () => {
   //get all category
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("https://node-server-s44q.onrender.com/api/v1/category/get-category");
+      const { data } = await axios.get(
+        "http://localhost:7000/api/v1/category/get-category"
+      );
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -71,7 +73,7 @@ const UpdateProduct = () => {
       photo && productData.append("photo", photo);
       productData.append("category", category);
       const { data } = axios.put(
-        `https://node-server-s44q.onrender.com/api/v1/product/update-product/${id}`,
+        `http://localhost:7000/api/v1/product/update-product/${id}`,
         productData
       );
       if (data?.success) {
@@ -92,7 +94,7 @@ const UpdateProduct = () => {
       let answer = window.prompt("Are You Sure want to delete this product ? ");
       if (!answer) return;
       const { data } = await axios.delete(
-        `https://node-server-s44q.onrender.com/api/v1/product/delete-product/${id}`
+        `http://localhost:7000/api/v1/product/delete-product/${id}`
       );
       toast.success("Product DEleted Succfully");
       navigate("/dashboard/admin/products");
@@ -153,7 +155,7 @@ const UpdateProduct = () => {
                 ) : (
                   <div className="text-center">
                     <img
-                      src={`https://node-server-s44q.onrender.com/api/v1/product/product-photo/${id}`}
+                      src={`http://localhost:7000/api/v1/product/product-photo/${id}`}
                       alt="product_photo"
                       height={"200px"}
                       className="img img-responsive"

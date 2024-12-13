@@ -32,7 +32,8 @@ const productSchema = new mongoose.Schema({
     },
     shipping:{
         type:Boolean
-    }
+    },
+    order: Number
 },{timestamps:true})
 
 export default mongoose.model('Products', productSchema)

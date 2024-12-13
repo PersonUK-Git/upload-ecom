@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../../components/Layout/Layout";
 import AdminMenu from "./../../components/Layout/AdminMenu";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { Select } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -47,13 +47,12 @@ const CreateProduct = () => {
       productData.append("photo", photo);
       productData.append("category", category);
       const { data } = axios.post(
-        "https://node-server-s44q.onrender.com/api/v1/product/create-product",
+        "http://localhost:7000/api/v1/product/create-product",
         productData
       );
       if (data?.success) {
         toast.success("Product Created Successfully");
         navigate("/dashboard/admin/products");
-   
       } else {
         toast.error(data?.message);
       }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "../../styles/AuthStyles.css";
 import { useAuth } from "../../context/auth";
 const Login = () => {
@@ -17,7 +17,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://node-server-s44q.onrender.com/api/v1/auth/login", {
+      const res = await axios.post("http://localhost:7000/api/v1/auth/login", {
         email,
         password,
       });

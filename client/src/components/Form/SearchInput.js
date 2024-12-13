@@ -10,7 +10,7 @@ const SearchInput = () => {
     e.preventDefault();
     try {
       const { data } = await axios.get(
-        `https://node-server-s44q.onrender.com/api/v1/product/search/${values.keyword}`
+        `http://localhost:7000/api/v1/product/search/${values.keyword}`
       );
       setValues({ ...values, results: data });
       navigate("/search");

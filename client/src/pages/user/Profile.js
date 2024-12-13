@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserMenu from "../../components/Layout/UserMenu";
 import Layout from "./../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 const Profile = () => {
   //context
@@ -27,13 +27,16 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put("https://node-server-s44q.onrender.com/api/v1/auth/profile", {
-        name,
-        email,
-        password,
-        phone,
-        address,
-      });
+      const { data } = await axios.put(
+        "http://localhost:7000/api/v1/auth/profile",
+        {
+          name,
+          email,
+          password,
+          phone,
+          address,
+        }
+      );
       if (data?.errro) {
         toast.error(data?.error);
       } else {
